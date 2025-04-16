@@ -1,19 +1,34 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { NextRequest, NextResponse } from "next/server"
 
-const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)'])
+const publicRoutes = ["/login", "/register"]
 
-export default clerkMiddleware(async (auth, request) => {
-  if (!isPublicRoute(request)) {
-    await auth.protect()
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
+
+  // Check if the user is requesting a public route
+  const isPublic = publicRoutes.some((route) => pathname.startsWith(route))
+
+  // Check if the access token cookie is present
+  const accessToken = request.cookies.get("accessToken")?.value
+
+  // If the route is protected and there's no token → redirect to login
+  if (!isPublic && !accessToken) {
+    const loginUrl = new URL("/login", request.url)
+    return NextResponse.redirect(loginUrl)
   }
-})
+
+  // Allow request through
+  return NextResponse.next()
+}
+
 
 export const config = {
   matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API routes
-    '/(api|trpc)(.*)',
-    "/api/(.*)", "/protected/(.*)","/api/:path*",
+    "/",            // root
+    "/profile",     // profile
+    "/admin",       // admin
+    "/login",       // login
+    "/register",    // register
+    "/((?!api|_next|static|favicon.ico).*)" // skip Next internals & API
   ],
 }
