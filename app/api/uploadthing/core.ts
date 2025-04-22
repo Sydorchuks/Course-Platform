@@ -1,15 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useAuth } from "@clerk/nextjs";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 
 const f = createUploadthing();
-
-const useHandleAuth = () => {
-  const {userId} = useAuth();
-  if(!userId) throw new Error("Unauthorized")
-    return {userId}
-}
 
 
 export const ourFileRouter = {

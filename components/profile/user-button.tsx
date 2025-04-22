@@ -9,8 +9,12 @@ import { LogOut } from "lucide-react"
 
 export const UserButton = () => {
 
-    const user = useCurrentUser();
+    const { user, loading } = useCurrentUser(); // ✅ destructure user and loading
 
+    if (loading) {
+      return null; // You can show a spinner here if you want
+    }
+    
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>

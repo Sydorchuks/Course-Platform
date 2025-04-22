@@ -6,6 +6,7 @@ import {Button} from "@/components/ui/button"
 import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { SearchInput } from "./Search-input";
+import { UserButton } from "./profile/user-button";
 
 export const NavbarRoutes = () =>{
 
@@ -38,6 +39,7 @@ export const NavbarRoutes = () =>{
                 </Link>
             )}
             
+
         </div>
         </>
     )

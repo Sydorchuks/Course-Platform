@@ -93,7 +93,10 @@ const CourseIdPage = async ({
             </div>
 
             <TitleForm
-              initialData={course}
+              initialData={{
+                ...course,
+                title: course.title ?? "No title provided",
+              }}
               courseId={course.id}
             />
 

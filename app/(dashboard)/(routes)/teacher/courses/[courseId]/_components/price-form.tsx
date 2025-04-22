@@ -36,10 +36,10 @@ export const PriceForm = ({initialData, courseId}:PriceFormProps) => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues:{
-            price: initialData?.price || undefined,
+        defaultValues: {
+          price: initialData?.price !== null ? initialData.price : 0, // string for input
         },
-    });
+      });
 
     const { isSubmitting, isValid } = form.formState;
 

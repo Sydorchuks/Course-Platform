@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Navbar } from ;
+import { Navbar } from "@/components/profile/ProfileNavbar";
 import Link from "next/link";
 
 interface ProtectedLayoutProps {

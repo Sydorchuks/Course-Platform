@@ -1,5 +1,5 @@
 "use client"
-import { UserButton } from "@/components/auth/user-button"
+import { UserButton } from "./user-button" 
 import { Button } from "@/components/ui/button"
 import { UserRole } from "@prisma/client"
 import { useSession } from "next-auth/react"

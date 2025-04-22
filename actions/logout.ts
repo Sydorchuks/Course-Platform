@@ -1,20 +1,14 @@
-// actions/logout.ts
-"use server"
-
-import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
-
-export const logout = async () => {
+// logout-client.ts
+export const logoutClient = async () => {
   try {
-    await fetch("http://localhost:5000/api/auth/logout", {
+    await fetch("/api/logout", {
       method: "POST",
       credentials: "include",
     })
 
-    // Optionally clear local state, etc.
-    revalidatePath("/")
-    redirect("/auth/login")
-  } catch (error) {
-    console.error("Logout error:", error)
+    window.location.href = "/login"
+  } catch (err) {
+    console.error("Logout failed:", err)
+    window.location.href = "/login"
   }
 }

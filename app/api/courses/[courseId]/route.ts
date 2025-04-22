@@ -11,15 +11,19 @@ export async function PATCH(
     const { courseId } = await Promise.resolve(params); // Safely resolve params
     
     const values = await req.json();
-
+    
+    if (values.categoryId) {
+      const category = await db.category.findUnique({
+        where: { id: values.categoryId },
+      });
+    }
     const course = await db.course.update({
-      where: {
-        id: courseId,
-      },
-      data: {
-        ...values,
-      },
+      where: { id: courseId },
+      data: { ...values },
     });
+
+    console.log("[REQ BODY]", values);
+    console.log("[UPDATED COURSE]", course);
 
     return NextResponse.json(course);
   } catch (error) {
