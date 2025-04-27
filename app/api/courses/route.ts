@@ -17,3 +17,19 @@ export async function POST(req: NextRequest) {
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
+
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const title = searchParams.get('title') || '';
+  const categoryId = searchParams.get('categoryId');
+
+  const courses = await db.course.findMany({
+    where: {
+      title: { contains: title, mode: 'insensitive' },
+      categoryId: categoryId || undefined,
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  return NextResponse.json(courses);
+}

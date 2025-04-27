@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ToastProvider } from "@/components/providers/toaster-provider";
 import { ConfettiProvider } from "@/components/providers/confetti-provider";
+import { AuthProvider } from "@/components/providers/AuthProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,7 +33,9 @@ export default function RootLayout({
         >
           <ConfettiProvider />
           <ToastProvider />
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
         </body>
       </html>
   );

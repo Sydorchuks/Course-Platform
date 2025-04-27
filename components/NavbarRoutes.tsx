@@ -39,8 +39,11 @@ export const NavbarRoutes = () =>{
                 </Link>
             )}
             
+            <UserButton/>
 
         </div>
+
+
         </>
     )
 }

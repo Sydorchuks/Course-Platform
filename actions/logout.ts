@@ -1,14 +1,14 @@
 // logout-client.ts
 export const logoutClient = async () => {
-  try {
-    await fetch("/api/logout", {
-      method: "POST",
-      credentials: "include",
-    })
+  const response = await fetch('http://localhost:5000/api/auth/logout', {
+    method: 'POST',
+    credentials: 'include', // Ensure cookies are sent with the request
+  });
 
-    window.location.href = "/login"
-  } catch (err) {
-    console.error("Logout failed:", err)
-    window.location.href = "/login"
+  if (response.ok) {
+    // Redirect to login page after logout
+    window.location.href = '/login'; // Or use router.push('/login') if you're using a client-side router
+  } else {
+    console.error('Logout failed');
   }
 }

@@ -1,48 +1,36 @@
-'use client';
-
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-  Dispatch,
-  SetStateAction,
-} from 'react';
-import { apiFetch } from '@/lib/api'; // we'll fix this below
+"use client"
+import React, { createContext, useContext, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { User } from '@/types/user';
+import { useCurrentUser } from '@/hooks/use-current-user'; // update to your actual path
 
 type AuthContextType = {
   user: User | null;
-  setUser: Dispatch<SetStateAction<User | null>>;
   loading: boolean;
+  logout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { user, loading } = useCurrentUser(); // 🔁 reused logic
   const router = useRouter();
 
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const res = await apiFetch<User>('/users/current'); // typed fetch
-        setUser(res);
-      } catch {
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getUser();
-  }, []);
+  const logout = async () => {
+    try {
+      await fetch('/api/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+    } catch (err) {
+      console.error('Logout failed:', err);
+    } finally {
+      router.push('/login');
+    }
+  };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, loading }}>
+    <AuthContext.Provider value={{ user, loading, logout }}>
       {children}
     </AuthContext.Provider>
   );

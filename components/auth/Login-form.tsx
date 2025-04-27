@@ -54,23 +54,20 @@ export const LoginForm = () => {
             return
           }
   
-          // Fetch current user after successful login
-          const userRes = await fetch("http://localhost:5000/api/users/current", {
-            credentials: "include",
-          })
-  
-          const userData = await userRes.json()
-          console.log("✅ Logged in user:", userData) // optional
-  
           setSuccess("Login successful!")
           form.reset()
-          router.push("/")
+  
+          // ✅ Immediately redirect after login success
+          router.push("/") 
+  
+          // ⛔️ NO fetching /api/users/current manually here
         })
         .catch(() => {
           setError("Something went wrong")
         })
     })
   }
+  
 
   return (
     <CardWrapper

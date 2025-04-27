@@ -2,10 +2,23 @@ import { db } from '@/lib/db'
 import React from 'react'
 import { Categories } from './_components/categories'
 import { SearchInput } from '@/components/Search-input'
+import { getCourses } from '@/actions/get-courses'
+import { CoursesList } from '@/components/courses-list'
+import { getCurrentUser } from '@/lib/getServerUser'
+import { type Metadata } from 'next'
 
+interface SearchPageProps {
+  searchParams: Promise<{
+    title?: string
+    categoryId?: string
+  }>
+}
 
-const SearchPage = async () => {
+const SearchPage = async ({ searchParams }: SearchPageProps) => {
+  const params = await searchParams; // ⬅️ обов'язково await
 
+  const user = await getCurrentUser();
+  const userId = user?.id;
 
   const categories = await db.category.findMany({
     orderBy: {
@@ -13,6 +26,10 @@ const SearchPage = async () => {
     },
   });
 
+  const courses = await getCourses({
+    userId,
+    ...params,
+  });
 
   return (
     <>
@@ -22,6 +39,7 @@ const SearchPage = async () => {
 
       <div className="p-6">
         <Categories items={categories} />
+        <CoursesList items={courses} />
       </div>
     </>
   );
