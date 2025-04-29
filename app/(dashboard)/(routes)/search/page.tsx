@@ -5,6 +5,7 @@ import { SearchInput } from '@/components/Search-input'
 import { getCourses } from '@/actions/get-courses'
 import { CoursesList } from '@/components/courses-list'
 import { getCurrentUser } from '@/lib/getServerUser'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { type Metadata } from 'next'
 
 interface SearchPageProps {
@@ -15,7 +16,7 @@ interface SearchPageProps {
 }
 
 const SearchPage = async ({ searchParams }: SearchPageProps) => {
-  const params = await searchParams; // ⬅️ обов'язково await
+  const params = await searchParams; 
 
   const user = await getCurrentUser();
   const userId = user?.id;
@@ -37,7 +38,7 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
         <SearchInput />
       </div>
 
-      <div className="p-6">
+      <div className="p-6 space-y-4">
         <Categories items={categories} />
         <CoursesList items={courses} />
       </div>

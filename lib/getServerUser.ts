@@ -12,7 +12,7 @@ export const getCurrentUser = async () => {
       headers: {
         Cookie: cookieHeader,
       },
-      cache: 'no-store', // дуже бажано
+      cache: 'no-store',
     });
 
     if (!res.ok) {
