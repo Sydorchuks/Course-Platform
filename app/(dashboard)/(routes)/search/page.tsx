@@ -7,6 +7,7 @@ import { CoursesList } from '@/components/courses-list'
 import { getCurrentUser } from '@/lib/getServerUser'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { type Metadata } from 'next'
+import { redirect } from 'next/navigation'
 
 interface SearchPageProps {
   searchParams: Promise<{
@@ -20,6 +21,10 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
 
   const user = await getCurrentUser();
   const userId = user?.id;
+
+  if(!userId){
+    redirect("/")
+  }
 
   const categories = await db.category.findMany({
     orderBy: {
