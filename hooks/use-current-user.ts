@@ -13,6 +13,7 @@ interface UseCurrentUserResult {
   user: User | null
   loading: boolean
   error: string | null
+  
 }
 
 export const useCurrentUser = (): UseCurrentUserResult => {
