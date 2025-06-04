@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 import { Chapter, Course, UserProgress } from '@prisma/client'
 import CourseSidebarItem from './CourseSidebarItem';
